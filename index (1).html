@@ -1,0 +1,197 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chill</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+        body {
+            margin: 0;
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #f0f0f0;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1002;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+            position: relative;
+        }
+
+        .profile-icon {
+            font-size: 20px;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-family: 'Pacifico', cursive;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .profile-popup {
+            position: fixed;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+        }
+
+        .profile-popup h3 {
+            margin-top: 5px;
+            font-size: 16px;
+        }
+
+        .profile-images {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+            padding: 10px 0;
+            justify-content: flex-start;
+            scroll-snap-type: x mandatory;
+        }
+
+        .profile-images span {
+            font-size: 28px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            background-color: #f9f9f9;
+            scroll-snap-align: center;
+            border: 2px solid transparent;
+        }
+
+        .profile-images .selected {
+            background-color: #d0f0d0;
+            border: 2px solid green;
+        }
+
+        .select-button {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: gray;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            transition: background-color 0.3s;
+            font-size: 14px;
+        }
+
+        .select-button.active {
+            background-color: green;
+            cursor: pointer;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -50%;
+            width: 50%;
+            height: 100%;
+            background-color: #f9f9f9;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            padding: 80px 10px 20px;
+            z-index: 999;
+            transition: left 0.3s ease;
+        }
+
+        .side-menu.active {
+            left: 0;
+        }
+
+        .side-menu h4 {
+            font-size: 16px;
+            margin: 20px 0;
+            padding: 8px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="side-menu" id="sideMenu">
+        <h4>আজাইরা কুইজ খেলুন</h4>
+    </div>
+
+    <div class="navbar">
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <div class="logo-text">Chill.com</div>
+        <div class="profile-icon" id="profileIcon" onclick="togglePopup()">👦</div>
+    </div>
+
+    <!-- Profile Selection Popup -->
+    <div class="profile-popup" id="profilePopup">
+        <h3>একটি প্রোফাইল ছবি নির্বাচন করুন</h3>
+        <div class="profile-images" id="profileImages">
+            <span class="selected" onclick="selectProfile(this)">👦</span>
+            <span onclick="selectProfile(this)">🍅</span>
+            <span onclick="selectProfile(this)">🎃</span>
+            <span onclick="selectProfile(this)">🥷</span>
+        </div>
+        <button class="select-button" id="selectBtn" onclick="confirmSelection()">সিলেক্ট করুন</button>
+    </div>
+
+    <script>
+        let selectedEmoji = '👦';
+
+        function togglePopup() {
+            const popup = document.getElementById('profilePopup');
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function selectProfile(element) {
+            const emojis = document.querySelectorAll('.profile-images span');
+            emojis.forEach(emoji => emoji.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedEmoji = element.textContent;
+            const btn = document.getElementById('selectBtn');
+            btn.classList.add('active');
+            btn.disabled = false;
+        }
+
+        function confirmSelection() {
+            if (!selectedEmoji) return;
+            document.getElementById('profileIcon').textContent = selectedEmoji;
+            togglePopup();
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('sideMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+
+</body>
+</html>
